@@ -1,7 +1,7 @@
 
 # MediaInsight
 
-Engenharia de Dados e Marketing Analytics com dados
+Projeto de Engenharia de Dados e Marketing Analytics com dados
 históricos do Google Analytics 4.
 
 ## Objetivo
