@@ -30,3 +30,7 @@ data/*.duckdb.wal
 
 # Power BI
 *.pbix
+
+
+*.duckdb
+*.duckdb.wal
