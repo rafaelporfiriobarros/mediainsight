@@ -1,0 +1,32 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Dados locais
+data/bronze/*
+data/silver/*
+data/gold/*
+data/*.duckdb
+data/*.duckdb.wal
+
+# Preservar diretórios
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+# Credenciais
+.env
+.env.*
+!.env.example
+*.json.key
+
+# Ferramentas
+.vscode/
+.idea/
+
+# Power BI
+*.pbix
