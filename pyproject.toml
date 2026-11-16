@@ -7,10 +7,12 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "duckdb>=1.3,<2",
+    "pytz>=2026.6",
 ]
 
 [project.scripts]
 mediainsight = "mediainsight.main:main"
+mediainsight-ingest = "mediainsight.run_ingestion:main"
 
 [build-system]
 requires = ["hatchling"]
