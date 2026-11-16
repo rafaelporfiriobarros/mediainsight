@@ -1,4 +1,3 @@
-
 from mediainsight.config import BRONZE_DIR
 from mediainsight.ingestion import ingest_csv
 
