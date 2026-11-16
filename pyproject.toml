@@ -13,6 +13,7 @@ dependencies = [
 [project.scripts]
 mediainsight = "mediainsight.main:main"
 mediainsight-ingest = "mediainsight.run_ingestion:main"
+mediainsight-transform = "mediainsight.run_transform:main"
 
 [build-system]
 requires = ["hatchling"]
