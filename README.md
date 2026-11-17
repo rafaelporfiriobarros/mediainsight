@@ -36,6 +36,107 @@ O projeto também demonstra práticas de qualidade, rastreabilidade, reconcilia�
 
 **Ambiente de desenvolvimento:** Windows, VS Code e PowerShell.
 
+## Docker — Ambiente reproduzível
+
+O MediaInsight utiliza **Docker e Docker Compose** para executar o pipeline de Engenharia de Dados em um ambiente Python reproduzível.
+
+A aplicação utiliza Python 3.12, UV, DuckDB, SQL, Pytest e Ruff. O Docker permite executar as transformações e os testes sem depender da instalação local dessas ferramentas.
+
+### Construção da imagem
+
+Com o Docker Desktop em execução, utilize:
+
+```powershell
+docker compose build
+```
+
+### Testes automatizados
+
+Execute a suíte de testes:
+
+```powershell
+docker compose run --rm mediainsight
+```
+
+**Resultado validado:** 35 testes aprovados.
+
+Verifique também a qualidade e a formatação do código:
+
+```powershell
+docker compose run --rm mediainsight ruff check .
+docker compose run --rm mediainsight ruff format --check .
+```
+
+### Pipeline de dados
+
+O projeto utiliza a arquitetura:
+
+**Bronze → Silver → Gold → Exportação CSV → Power BI**
+
+Para executar o pipeline sem modificar o banco original, crie uma cópia isolada do DuckDB.
+
+Com o banco fechado e sem transações pendentes:
+
+```powershell
+New-Item -ItemType Directory -Path .\data\docker_validation -Force
+
+Copy-Item `
+    .\data\mediainsight.duckdb `
+    .\data\docker_validation\mediainsight.duckdb
+```
+
+Execute a transformação Silver:
+
+```powershell
+docker run --rm `
+  --mount "type=bind,source=$((Resolve-Path .\data\docker_validation).Path),target=/app/data" `
+  mediainsight:dev `
+  mediainsight-transform
+```
+
+Execute a modelagem Gold:
+
+```powershell
+docker run --rm `
+  --mount "type=bind,source=$((Resolve-Path .\data\docker_validation).Path),target=/app/data" `
+  mediainsight:dev `
+  mediainsight-gold
+```
+
+Exporte os dados para o Power BI:
+
+```powershell
+docker run --rm `
+  --mount "type=bind,source=$((Resolve-Path .\data\docker_validation).Path),target=/app/data" `
+  mediainsight:dev `
+  python scripts/export_powerbi.py
+```
+
+Os arquivos serão gerados em `data/docker_validation/exports/powerbi/`.
+
+### Resultados validados
+
+A execução do pipeline no Docker apresentou:
+
+| Indicador | Resultado |
+|---|---:|
+| Eventos Bronze | 31.272 |
+| Eventos Silver | 31.272 |
+| Registros rejeitados | 0 |
+| Tabelas Gold | 4 |
+| Arquivos CSV exportados | 4 |
+| Testes automatizados | 35 aprovados |
+
+A execução da camada Gold retornou `SUCCESS`, com verificações de reconciliação aprovadas.
+
+### Documentação técnica
+
+Para consultar a arquitetura Docker, as configurações, os comandos e as boas práticas de segurança, acesse:
+
+[Documentação Docker](docs/docker.md)
+
+**Observação:** os arquivos de dados e bancos DuckDB não são incluídos na imagem Docker nem distribuídos pelo repositório. Para reproduzir o processamento, é necessário preparar os dados de entrada seguindo as instruções de ingestão do projeto.
+
 ## 3. Fonte de dados
 
 O projeto utiliza dados históricos do conjunto público Google Analytics 4 — Google Merchandise Store, disponibilizado no BigQuery.

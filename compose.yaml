@@ -1,0 +1,10 @@
+services:
+  mediainsight:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mediainsight:dev
+    working_dir: /app
+    volumes:
+      - ./data:/app/data
+    command: [ "pytest", "-q" ]

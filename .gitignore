@@ -37,3 +37,7 @@ data/*.duckdb.wal
 
 # Exportacoes locais para Power BI
 data/exports/
+
+# Backups e dados temporarios de validacao
+backups/
+data/docker_validation/
