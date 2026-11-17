@@ -34,3 +34,6 @@ data/*.duckdb.wal
 
 *.duckdb
 *.duckdb.wal
+
+# Exportacoes locais para Power BI
+data/exports/
