@@ -4,7 +4,7 @@
 
 O MediaInsight é um projeto educacional de **Engenharia de Dados, Engenharia de Software e Analytics** que transforma eventos históricos do Google Analytics 4 (GA4) em tabelas analíticas confiáveis. O projeto cobre ingestão, transformação, modelagem, validação, testes automatizados e exportação para BI.
 
-> **Status (17/11/2026):** camadas Bronze, Silver e Gold concluídas; execução com Docker validada e publicada; exportação para Power BI concluída. **Dashboard no Power BI Desktop em desenvolvimento.**
+> **Status (20/11/2026):** pipeline Bronze, Silver e Gold concluído; ambiente Docker validado; 35 testes automatizados aprovados; exportação analítica implementada; **dashboard executivo Power BI concluído e validado funcionalmente**. Documentação e publicação das evidências em andamento.
 
 ## 1. Problema de negócio
 
@@ -77,7 +77,7 @@ Dados históricos GA4 (arquivo CSV de entrada)
                     |
                     v
         Power BI Desktop
-       (dashboard em andamento)
+       Dashboard executivo validado
 
 Infraestrutura transversal: Python 3.12 + DuckDB + UV
 Qualidade e execução: pytest + Ruff + Docker + Git
@@ -115,7 +115,7 @@ Essa restrição impede conclusões confiáveis sobre tendências, sazonalidade 
 | pytest | Testes automatizados |
 | Ruff | Lint e formatação |
 | Git / GitHub | Versionamento e publicação |
-| Power BI Desktop | Consumo analítico e dashboard (em desenvolvimento) |
+| Power BI Desktop | Modelagem dimensional, Power Query, medidas DAX e dashboard executivo |
 
 **Ambiente de desenvolvimento:** Windows, VS Code e PowerShell.
 
@@ -264,20 +264,58 @@ uv run ruff format --check .
 
 **Cobertura:** os 35 testes cobrem diferentes partes da aplicação e do pipeline; a exportação para Power BI foi validada por execução e conferência dos arquivos, mas ainda não conta com testes automatizados específicos documentados.
 
-## 10. Power BI — Próxima entrega
+## 10. Dashboard executivo - Power BI
 
-O exportador Python já prepara quatro arquivos CSV para consumo no Power BI Desktop. O dashboard **ainda não está concluído**.
+O MediaInsight possui um dashboard executivo desenvolvido no Power BI Desktop, utilizando as quatro tabelas analíticas exportadas da camada Gold.
 
-O planejamento inclui:
+O relatório permite analisar indicadores de aquisição, engajamento e conversão de um comércio eletrônico.
 
-1. Importar os CSVs e validar tipos no Power Query.
-2. Revisar a modelagem e as relações necessárias, evitando associações artificiais entre tabelas agregadas.
-3. Criar medidas DAX para os indicadores executivos.
-4. Construir visuais de tráfego, primeira aquisição, dispositivos e eventos de conversão.
-5. Conferir os resultados com as consultas SQL/DuckDB.
-6. Documentar e publicar evidências do dashboard.
+### Visão geral do dashboard
 
-Como existe apenas um dia de dados, não serão apresentadas tendências temporais como se houvesse uma série histórica.
+![Dashboard MediaInsight](docs/evidencias/powerbi/dashboard-overview.png)
+
+### Indicadores implementados
+
+O dashboard apresenta oito indicadores:
+
+- Total de eventos: **31.272**
+- Total de sessões: **2.625**
+- Total de usuários: **2.365**
+- Total de compras: **14**
+- Sessões com compra: **13**
+- Receita total: **773,00**
+- Taxa de conversão: **0,50%**
+- Receita por sessão: **0,29**
+
+### Análises disponíveis
+
+O relatório contém cinco visualizações:
+
+1. Sessões por origem de aquisição.
+2. Receita por origem de aquisição.
+3. Sessões por dispositivo.
+4. Receita por dispositivo.
+5. Eventos da jornada de conversão.
+
+Também foram implementados uma dimensão de datas (`dim_date`), relacionamentos entre as tabelas analíticas, medidas DAX e um filtro de período.
+
+### Qualidade e validação
+
+Durante o desenvolvimento, foram identificados e corrigidos problemas de interpretação de separadores decimais na importação dos CSVs pelo Power BI.
+
+Após as correções, foram realizadas verificações de consistência entre os indicadores gerais e as agregações por aquisição e dispositivo.
+
+As interações entre gráficos também foram ajustadas para evitar interpretações incorretas entre tabelas Gold com diferentes granularidades.
+
+### Limitações
+
+A amostra contém somente dados de **01/11/2020**. Portanto, não permite avaliar tendências históricas.
+
+As análises de aquisição utilizam a primeira origem do usuário, e a visualização da jornada apresenta contagens de eventos, não um funil sequencial validado.
+
+A unidade monetária da receita não foi confirmada.
+
+**Documentação completa:** [Dashboard Power BI — modelagem, indicadores e validações](docs/powerbi_dashboard.md).
 
 ## 11. Etapas do projeto
 
@@ -288,7 +326,8 @@ Como existe apenas um dia de dados, não serão apresentadas tendências tempora
 | 3 | Transformação e qualidade Silver | Concluída |
 | 4 | Modelagem Gold e Marketing Analytics | Concluída |
 | 5A | Containerização, documentação e publicação | **Concluída** |
-| 5B | Dashboard executivo Power BI | Em desenvolvimento |
+| 5B | Dashboard executivo Power BI | **Concluída** |
+| 5C | Documentação, evidências e publicação do dashboard | Em andamento |
 
 **Evidência de publicação da etapa Docker:** commit [`5f55742`](https://github.com/rafaelporfiriobarros/mediainsight/commit/5f55742) na branch `main`.
 
@@ -299,9 +338,9 @@ Como existe apenas um dia de dados, não serão apresentadas tendências tempora
 - [Definições e regras das métricas Gold](docs/metricas_gold.md)
 - [`scripts/audit_gold.py`](scripts/audit_gold.py) — auditoria e reconciliação.
 - [`scripts/export_powerbi.py`](scripts/export_powerbi.py) — exportação dos dados analíticos.
+- [Dashboard Power BI — documentação técnica](docs/powerbi_dashboard.md)
+- [Evidência visual do dashboard](docs/evidencias/powerbi/dashboard-overview.png)
 
 ## 13. Escopo e finalidade
 
 Este é um projeto **educacional e de portfólio**, voltado à demonstração prática de Engenharia de Dados, Engenharia de Software, SQL, qualidade de dados e Marketing Analytics. Não representa uma solução implantada em produção nem uma análise operacional da Google Merchandise Store.
-
-**Projeto independente, sem vínculo com a Agência Africa.**
