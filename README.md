@@ -272,6 +272,14 @@ O relatório permite analisar indicadores de aquisição, engajamento e convers�
 
 ### Visão geral do dashboard
 
+**Dashboard interativo publicado no Power BI Service:**
+
+[**Acessar MediaInsight - Dashboard Interativo**](https://app.powerbi.com/view?r=eyJrIjoiYWY4MWNhYTEtNTUyNy00NTNlLWIzYjQtOGFhODA4YzFiMjg3IiwidCI6IjY1OWNlMmI4LTA3MTQtNDE5OC04YzM4LWRjOWI2MGFhYmI1NyJ9)
+
+O relatório permite explorar indicadores de aquisição, engajamento e conversão utilizando as tabelas analíticas produzidas pelo pipeline de Engenharia de Dados.
+
+**Prévia do dashboard:**
+
 ![Dashboard MediaInsight](docs/evidencias/powerbi/dashboard-overview.png)
 
 ### Indicadores implementados

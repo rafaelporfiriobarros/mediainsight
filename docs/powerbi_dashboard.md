@@ -93,7 +93,19 @@ Também foram verificadas:
 
 ![Dashboard MediaInsight](evidencias/powerbi/dashboard-overview.png)
 
-## 10. Conclusão
+## 11. Dashboard publicado no Power BI Service
+
+O dashboard MediaInsight também está disponível para visualização interativa por meio do Power BI Service.
+
+**Acesso público:**
+
+[Visualizar dashboard MediaInsight](https://app.powerbi.com/view?r=eyJrIjoiYWY4MWNhYTEtNTUyNy00NTNlLWIzYjQtOGFhODA4YzFiMjg3IiwidCI6IjY1OWNlMmI4LTA3MTQtNDE5OC04YzM4LWRjOWI2MGFhYmI1NyJ9)
+
+A publicação facilita a apresentação do projeto e permite explorar os indicadores diretamente no navegador, sem necessidade de instalar o Power BI Desktop.
+
+O conjunto de dados analisado corresponde a 01/11/2020 e possui finalidade educacional e demonstrativa.
+
+## 12. Conclusão
 
 O MediaInsight demonstra a integração entre Engenharia de Dados e Business Intelligence, desde a preparação e validação dos dados até sua apresentação em indicadores de negócio.
 
